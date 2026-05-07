@@ -1,4 +1,4 @@
-package basic.array.constate;
+package basic.constate;
 
 public class SwitchExample {
 

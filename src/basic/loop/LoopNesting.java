@@ -1,4 +1,4 @@
-package basic.array.loop;
+package basic.loop;
 
 public class LoopNesting {
 
