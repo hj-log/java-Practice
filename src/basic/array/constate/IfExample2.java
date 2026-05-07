@@ -1,4 +1,4 @@
-package constate;
+package basic.array.constate;
 
 public class IfExample2 {
 

@@ -1,3 +1,5 @@
+package basic.array;
+
 public class javaStater {
 
     public static void main(String[] args) {

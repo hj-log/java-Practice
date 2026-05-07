@@ -1,4 +1,4 @@
-package loop;
+package basic.array.loop;
 
 public class ContinueExample {
     public static void main(String[] args) {
