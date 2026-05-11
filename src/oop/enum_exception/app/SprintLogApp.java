@@ -1,6 +1,7 @@
 package oop.enum_exception.app;
 
 import oop.enum_exception.domain.*;
+import oop.enum_exception.exception.*;
 import oop.enum_exception.policy.*;
 import oop.enum_exception.printer.*;
 
@@ -27,8 +28,27 @@ public class SprintLogApp {
         System.out.println("name():    " + ActivityCategory.LECTURE.name());
         System.out.println("ordinal(): " + ActivityCategory.LECTURE.ordinal());
         System.out.println("label:     " + ActivityCategory.LECTURE.getLabel());
-
         printCategoryGuide(ActivityCategory.PRACTICE);
+
+        // ── 3. 잘못된 입력 → 예외 시연 ───────────────────────────────
+        System.out.println();
+        System.out.println("=== 잘못된 입력 처리 ===");
+
+        try {
+            new LectureLog("", 50, Visibility.PUBLIC, "박코치");
+        } catch (InvalidActivityException e) {
+            System.out.println("등록 실패: " + e.getMessage());
+        }
+
+        try {
+            new PracticeLog("예외 실습", -10, Visibility.PUBLIC, 110);
+        } catch (InvalidActivityException e) {
+            System.out.println("등록 실패: " + e.getMessage());
+        }
+
+        System.out.println();
+        System.out.println("총 생성된 활동 수: " + LearningActivity.getTotalCreatedCount());
+
     }
 
     /** switch 문 + enum 조합 시연. */
