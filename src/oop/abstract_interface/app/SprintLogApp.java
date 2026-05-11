@@ -1,6 +1,7 @@
 package oop.abstract_interface.app;
 import oop.abstract_interface.domain.*;
 import oop.abstract_interface.policy.*;
+import oop.abstract_interface.printer.*;
 
 public class SprintLogApp {
 
@@ -15,10 +16,11 @@ public class SprintLogApp {
 //        LearningActivity act = new LearningActivity("test", 10);
 
         LearningActivity[] activities = {javaLecture, gitPractice, oopPractice, oopBook};
+        ActivityPrinter printer = new CompactActivityPrinter();
 
-        System.out.println("=== 학습 활동 목록 ===");
+        System.out.println("=== 간단 학습 활동 목록 ===");
         for (int i = 0; i < activities.length; i++) {
-            activities[i].printSummary();
+            printer.print(activities[i]);
         }
 
         // 다형성이란 부모 타입의 변수에 자식 타입의 객체가 들어올 수 있다는 것, 곧 상속 관계 하에서만 발생한다.
