@@ -1,6 +1,6 @@
 package oop.inner_anonymous.printer;
 
-import oop.enum_exception.domain.*;
+import oop.inner_anonymous.domain.*;
 
 public class ConsoleActivityPrinter implements ActivityPrinter {
 

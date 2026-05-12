@@ -33,15 +33,15 @@ public abstract class LearningActivity {
     }
 
     //
-    public void setMinutes(int minutes) {
-        if (minutes <= 0) {
+    public void extendStudy(int additionalMinutes) {
+        if (additionalMinutes <= 0) {
             throw new InvalidActivityException(
-                    "추가 학습 시간은 1분 이상이어야 합니다. 입력값: " + minutes);
+                    "추가 학습 시간은 1분 이상이어야 합니다. 입력값: " + additionalMinutes);
         }
-        this.minutes += minutes;
+        this.minutes += additionalMinutes;
     }
 
-    public void setTitle(String newTitle) {
+    public void changeTitle(String newTitle) {
         validateTitle(newTitle);
         this.title = newTitle;
     }
