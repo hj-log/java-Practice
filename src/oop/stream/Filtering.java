@@ -1,11 +1,11 @@
 package oop.stream;
 
-import java.awt.Menu;
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
-import static java.awt.Menu.*;
-import static oop.stream.Menu.MENU_LIST;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
+import static oop.stream.Menu.*;
 
 public class Filtering {
 
@@ -13,27 +13,25 @@ public class Filtering {
 
         // 요리 메뉴 중 채식주의자가 먹을 수 있는 요리만 필터링
         /*
-        Stream<Dish> stream = Menu.MENU_LIST.stream();
-        stream.filter(new Predicate<Dish>() {
+        Stream<Dish> stream = MENU_LIST.stream();
+        Stream<Dish> dishStream = stream.filter(new Predicate<Dish>() {
             @Override
             public boolean test(Dish dish) {
                 return dish.isVegetarian();
             }
         });
-
         List<Dish> dishList = dishStream.toList();
         for (Dish dish : dishList) {
             System.out.println(dish);
         }
-         */
-
+        */
         List<Dish> dishList = MENU_LIST.stream()
                 .filter(Dish::isVegetarian)
-                .toList();  // 메서드 체인닝?
+                .toList();
 
-        dishList.forEach(System.out::println);
+        dishList.forEach(dish -> System.out.println(dish));
 
-        System.out.println("=================================================");
+        System.out.println("=============================================================");
 
         // 메뉴 목록중에 육류이면서 600칼로리 미만인 요리를 필터링 해서 출력
         // 메서드 체이닝 (method chaining): 리턴된 결과물을 변수에 할당 없이 바로 호출하는 문법
@@ -43,9 +41,9 @@ public class Filtering {
                 .toList()
                 .forEach(System.out::println);
 
-        System.out.println("=================================================");
+        System.out.println("=============================================================");
 
-        // 메뉴 목록에서 요리 이름이 4개글자 이상인것만 필터링 해줘
+        // 메뉴 목록에서 요리 이름이 4글자인 것만 필터링 해서 출력해줘.
         MENU_LIST.stream()
                 .filter(dish -> dish.getName().length() == 4)
                 .toList()
