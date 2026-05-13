@@ -66,7 +66,7 @@ public class Main {
         // 그럼 이름을 굳이 언급할 필요 있나? -> 람다식 쓰자!
 
         // 람다식은 구현하고자 하는 인터페이스가 추상메서드를 딱 하나만 가질 때만 사용할 수 있음.
-        // 람다식은 이용해서 메서드를 오버라이딩 할 떄, 메서드의 내용이 단 한 줄이고, 그 한줄이 return문이라면
+        // 람다식은 이용해서 메서드를 오버라이딩 할 때, 메서드의 내용이 단 한 줄이고, 그 한줄이 return문이라면
         // 중괄호(메서드 바디)와 return 키워드를 생략할 수 있다.
         List<Apple> apples2 = FilterApple.filterApple(appleBasket,
                 (apple) -> apple.getColor() == GREEN && apple.getWeight() <= 100);
@@ -78,15 +78,29 @@ public class Main {
 
         System.out.println("=======================================");
 
-        // 색깔이 빨강 혹은 초록이면서, 무게는 150g 미만이어야 합니다.
+        // 색깔이 빨강 혹은 초록이면서, 무게는 150g 초과이어야 합니다.
         // 논리연산에서 and가 or보다 우선입니다!
 
         List<Apple> apples3 = FilterApple.filterApple(appleBasket,
-                (apple) -> apple.getColor() == RED || apple.getColor() == GREEN && apple.getWeight() < 200);
+                (apple) -> (apple.getColor() == RED
+                        || apple.getColor() == GREEN)
+                        && apple.getWeight() > 150);
 
         for (Apple apple : apples3) {
             System.out.println(apple);
         }
+
+        System.out.println("=======================================");
+
+        // 여러가지 타입의 객체를 필터링
+       List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        List<Integer> filter1 = FilterApple.filter(numbers, n -> n % 2 == 0);
+        System.out.println(filter1);
+
+        List<String> foods = List.of("짜장면", "짬뽕", "탕수육", "피자", "삼겹살", "파스타");
+        List<String> filter2 = FilterApple.filter(foods, f -> f.length() == 3);
+        System.out.println(filter2);
+
 
 
     }
