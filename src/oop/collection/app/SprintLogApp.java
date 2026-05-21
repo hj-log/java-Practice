@@ -72,7 +72,7 @@ public class SprintLogApp {
         System.out.println("=== 카테고리별 그룹화 ===");
         Map<ActivityCategory, List<LearningActivity>> grouped = dashboard.groupByCategory();
 
-        for (ActivityCategory cat : ActivityCategory.values()) {
+        for (ActivityCategory cat : ActivityCategory.values()) {  // enum 전체 반복: .value
             List<LearningActivity> group = grouped.get(cat);
             if (group == null) {
                 System.out.println(cat.getLabel() + ": 없음");

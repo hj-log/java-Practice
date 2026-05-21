@@ -13,7 +13,7 @@ public class SprintLogApp {
         ReadingLog oopBook = new ReadingLog("객체지향의 사실과 오해", 35, true, "객체지향의 사실과 오해");
 
         // 추상클래스는 스스로의 객체를 생성할 수 없고, 자식에 의해서 생성될 뿐입니다.
-//        LearningActivity act = new LearningActivity("test", 10);
+       // LearningActivity act = new LearningActivity("test", 10);
 
         LearningActivity[] activities = {javaLecture, gitPractice, oopPractice, oopBook};
         ActivityPrinter printer = new CompactActivityPrinter();

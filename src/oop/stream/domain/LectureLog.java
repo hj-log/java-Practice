@@ -58,5 +58,9 @@ public class LectureLog extends LearningActivity implements Reviewable, Shareabl
     public String getDetailText() {
         return "강사: " + instructorName;
     }
+
+    public String getInstructorName() {
+        return instructorName;
+    }
 }
 

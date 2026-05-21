@@ -3,11 +3,13 @@ package oop.stream.service;
 import oop.stream.domain.*;
 import oop.stream.printer.*;
 
+import java.util.*;
+
 public class ActivityDashboard {
 
-    private final LearningActivity[] activities;
+    private List<LearningActivity> activities;
 
-    public ActivityDashboard(LearningActivity[] activities) {
+    public ActivityDashboard(List<LearningActivity> activities) {
         this.activities = activities;
     }
 
@@ -18,7 +20,7 @@ public class ActivityDashboard {
     public Summary summarize() {
 
         // 로컬 클래스 선언: summarize() 밖에서는 사용할 수 없다.
-        class Counter{
+        class Counter {
             private int totalCount;
             private int lectureCount;
             private int practiceCount;
@@ -28,9 +30,9 @@ public class ActivityDashboard {
                 totalCount++;
                 // getCategory()는 LearningActivity의 public API
                 switch (activity.getCategory()) {
-                    case LECTURE  -> lectureCount++;
+                    case LECTURE -> lectureCount++;
                     case PRACTICE -> practiceCount++;
-                    case READING  -> readingCount++;
+                    case READING -> readingCount++;
                 }
             }
 
@@ -45,9 +47,6 @@ public class ActivityDashboard {
         }
         return counter.toSummary();
     } // end summarize()
-
-
-
 
 
     // 내부 클래스에 static을 붙이는 이유는 메모리 누수를 방지하고 독립성을 가지기 위해서 입니다.
@@ -92,7 +91,7 @@ public class ActivityDashboard {
         private final ActivityPrinter printer;
 
         public ReportBuilder(ActivityPrinter printer) {
-            if(printer == null){
+            if (printer == null) {
                 throw new IllegalArgumentException("출력 도구는 null일 수 없습니다.");
             }
             this.printer = printer;
@@ -109,7 +108,49 @@ public class ActivityDashboard {
                 printer.print(activity);
             }
         }
+    }
 
+    // 태그 필터링-------------------------------------------------------
+    public List<LearningActivity> filterByTag(String tag) {
+        List<LearningActivity> result = new ArrayList<>();
+        for (LearningActivity activity : activities) {
+            if (activity.hasTag(tag)) {
+                result.add(activity);
+            }
+        }
+        return Collections.unmodifiableList(result);
+
+    }
+
+    // 카테고리별 그룹화 -------------------------------------------------
+    // 카테고리별로 활동(Log)을 그룹화해서 Map으로 반환한다.
+    // 해당 카테고리가 Map에 없으면 빈 List를 먼저 만들어서 put한다.
+    public Map<ActivityCategory, List<LearningActivity>> groupByCategory() {
+        Map<ActivityCategory, List<LearningActivity>> result = new TreeMap<>();
+
+        for (LearningActivity activity : activities) {
+            ActivityCategory cat = activity.getCategory();
+
+            if (!result.containsKey(cat)) {
+                result.put(cat, new ArrayList<>());
+            }
+
+            List<LearningActivity> list = result.get(cat);
+            list.add(activity);
+        }
+
+        return result;
+    }
+
+    // 모든 활동에서 태그를 모아서 알파벳순 정렬 set으로 반환한다.
+    public Set<String> getSortedTagSet() {
+        Set<String> tags = new TreeSet<>();
+
+        for (LearningActivity activity : activities) {
+            tags.addAll(activity.getTags());
+        }
+
+        return Collections.unmodifiableSet(tags);
     }
 
 }

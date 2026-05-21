@@ -6,12 +6,10 @@ import oop.stream.domain.LectureLog;
 import oop.stream.domain.PracticeLog;
 import oop.stream.domain.ReadingLog;
 import oop.stream.domain.Visibility;
+import oop.stream.repository.*;
+import oop.stream.service.*;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.IntSummaryStatistics;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
@@ -274,5 +272,64 @@ public class SprintLogApp {
 
         System.out.println();
         System.out.println("총 생성된 활동 수: " + LearningActivity.getTotalCreatedCount());
+
+        // ── 9. TreeMap — 카테고리별 활동 수 (정렬 보장) ────────
+        System.out.println();
+        System.out.println("=== 카테고리별 활동 수 (TreeMap — 정렬된 순서) ===");
+        ActivityDashboard dashboard = new ActivityDashboard(activities);
+        Map<ActivityCategory, List<LearningActivity>> grouped2 = dashboard.groupByCategory();
+        grouped2.forEach((cat, list) ->
+                System.out.println(cat.getLabel() + ": " + list.size() + "개"));
+
+        // ── 10. TreeSet — 정렬된 태그 목록 ─────────────────────
+        System.out.println();
+        System.out.println("=== 등록된 태그 목록 (TreeSet — 알파벳 정렬) ===");
+        Set<String> sortedTags = dashboard.getSortedTagSet();
+        System.out.println("태그: " + sortedTags);
+
+        System.out.println();
+        System.out.println("총 생성된 활동 수: " + LearningActivity.getTotalCreatedCount());
+
+        // ── 11. 제네릭 레포지토리 — 타입별 저장소 ───────────────
+        System.out.println();
+        System.out.println("=== ActivityRepository<T> — 제네릭 레포지토리 ===");
+
+        // LectureLog만 담는 레포지토리 — 다른 타입을 add()하면 컴파일 오류
+        ActivityRepository<LectureLog> lectureRepo = new ActivityRepository<>();
+        lectureRepo.add((LectureLog) l1);
+        lectureRepo.add((LectureLog) l2);
+        lectureRepo.add((LectureLog) l3);
+
+        // PracticeLog만 담는 레포지토리
+        ActivityRepository<PracticeLog> practiceRepo = new ActivityRepository<>();
+        practiceRepo.add((PracticeLog) p1);
+        practiceRepo.add((PracticeLog) p2);
+        practiceRepo.add((PracticeLog) p3);
+
+        // findAll() 반환 타입이 List<LectureLog> — 캐스팅 없이 바로 쓴다
+        List<LectureLog> allLectures = lectureRepo.findAll();
+        System.out.println("강의 레포지토리 — 저장된 수: " + lectureRepo.count() + "개");
+        System.out.println("강의 레포지토리 — 총 학습 시간: " + lectureRepo.getTotalMinutes() + "분");
+
+        // filter()도 타입 안전 — Predicate<LectureLog>, 결과도 List<LectureLog>
+        List<LectureLog> publicLectures = lectureRepo.filter(LearningActivity::isPublicActivity);
+        System.out.println("공개 강의: " + publicLectures.size() + "개");
+        publicLectures.forEach(lec -> System.out.println("  " + lec.getTitle()
+                + " [강사: " + lec.getInstructorName() + "]"));
+
+        System.out.println("실습 레포지토리 — 저장된 수: " + practiceRepo.count() + "개");
+        System.out.println("실습 레포지토리 — 총 학습 시간: " + practiceRepo.getTotalMinutes() + "분");
+
+        Optional <PracticeLog> first
+                = practiceRepo.findfirst(a->a.getCompletionRate() >= 70);
+        first.ifPresent(practiceLog -> System.out.println("findfirst의 결과: " + practiceLog));
+
+
+
+        System.out.println();
+        System.out.println("총 생성된 활동 수: " + LearningActivity.getTotalCreatedCount());
+
     }
+
+
 }

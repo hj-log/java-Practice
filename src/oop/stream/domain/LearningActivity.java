@@ -13,6 +13,7 @@ public abstract class LearningActivity {
     private int minutes;
     private Visibility visibility;
     private final ActivityCategory category;
+    private final Set<String> tags = new HashSet<>();
 
 //    LearningActivity(String title, int minutes) {
 //
@@ -109,8 +110,22 @@ public abstract class LearningActivity {
     }
 
 
-    public String addTag(String s) {
-        return s;
+    public void addTag(String tag) {
+        if (tag == null || tag.isBlank()) {
+            throw new oop.collection.exception.InvalidActivityException("태그는 비워둘 수 없습니다.");
+        }
+        tags.add(tag.trim().toLowerCase());
+    }
+
+    /** 등록된 태그 목록을 읽기 전용으로 반환한다.
+     */
+    public Set<String> getTags() {
+        return Collections.unmodifiableSet(tags);
+    }
+
+    public boolean hasTag(String tag) {
+        if (tag == null) return false;
+        return tags.contains(tag.trim().toLowerCase());
     }
 }
 
