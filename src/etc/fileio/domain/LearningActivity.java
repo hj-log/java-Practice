@@ -2,6 +2,7 @@ package etc.fileio.domain;
 
 import etc.fileio.exception.*;
 
+import java.nio.file.*;
 import java.util.*;
 
 public abstract class LearningActivity {
@@ -62,11 +63,11 @@ public abstract class LearningActivity {
     }
 
     public void hideFromPublic() {
-        this.visibility = Visibility.PUBLIC;
+        this.visibility = Visibility.PRIVATE;
     }
 
-    public void openTobePublic() {
-        this.visibility = Visibility.PRIVATE;
+    public void openToPublic() {
+        this.visibility = Visibility.PUBLIC;
     }
 
 
@@ -89,7 +90,7 @@ public abstract class LearningActivity {
         return minutes;
     }
 
-    public Visibility getvisibility() {
+    public Visibility getVisibility() {
         return visibility;
     }
 
@@ -127,6 +128,9 @@ public abstract class LearningActivity {
         if (tag == null) return false;
         return tags.contains(tag.trim().toLowerCase());
     }
+
+
+
 }
 
 
