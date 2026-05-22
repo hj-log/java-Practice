@@ -1,4 +1,4 @@
-package etc.fileio.exception;
+package etc.fileio.csv.exception;
 
 public class InvalidActivityException extends RuntimeException{
 

@@ -1,6 +1,6 @@
-package etc.fileio.repository;
+package etc.fileio.csv.repository;
 
-import etc.fileio.domain.*;
+import etc.fileio.csv.domain.*;
 
 import java.io.*;
 import java.nio.charset.*;

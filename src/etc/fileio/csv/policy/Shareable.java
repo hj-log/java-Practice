@@ -1,4 +1,4 @@
-package etc.fileio.policy;
+package etc.fileio.csv.policy;
 
 public interface Shareable {
 

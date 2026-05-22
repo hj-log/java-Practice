@@ -1,12 +1,10 @@
-package etc.fileio.app;
+package etc.fileio.csv.app;
 
-import etc.fileio.domain.*;
-import etc.fileio.repository.*;
-import etc.fileio.service.*;
+import etc.fileio.csv.domain.*;
+import etc.fileio.csv.repository.*;
 
 import java.nio.file.*;
 import java.util.*;
-import java.util.stream.*;
 
 
 public class SprintLogApp {

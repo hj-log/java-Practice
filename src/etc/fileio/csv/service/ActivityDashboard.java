@@ -1,7 +1,7 @@
-package etc.fileio.service;
+package etc.fileio.csv.service;
 
-import etc.fileio.domain.*;
-import etc.fileio.printer.*;
+import etc.fileio.csv.domain.*;
+import etc.fileio.csv.printer.*;
 
 import java.util.*;
 

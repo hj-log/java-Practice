@@ -1,4 +1,4 @@
-package etc.fileio.domain;
+package etc.fileio.csv.domain;
 
 public enum ActivityCategory {
 

@@ -1,6 +1,6 @@
-package etc.fileio.printer;
+package etc.fileio.csv.printer;
 
-import etc.fileio.domain.*;
+import etc.fileio.csv.domain.*;
 
 public interface ActivityPrinter {
 

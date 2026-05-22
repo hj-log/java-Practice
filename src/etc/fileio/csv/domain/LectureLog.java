@@ -1,6 +1,6 @@
-package etc.fileio.domain;
+package etc.fileio.csv.domain;
 
-import etc.fileio.policy.*;
+import etc.fileio.csv.policy.*;
 
 // LectureLog는 LearningActivity의 한 종류이고, Reviewable에 선언된 역할도 수행할 수 있다.
 public class LectureLog extends LearningActivity implements Reviewable, Shareable {

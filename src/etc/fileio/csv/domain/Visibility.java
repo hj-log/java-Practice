@@ -1,4 +1,4 @@
-package etc.fileio.domain;
+package etc.fileio.csv.domain;
 
 // enum : 정해진 선택지를 코드의 타입으로 만드는 문법
 public enum Visibility {

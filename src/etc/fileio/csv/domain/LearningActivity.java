@@ -1,8 +1,7 @@
-package etc.fileio.domain;
+package etc.fileio.csv.domain;
 
-import etc.fileio.exception.*;
+import etc.fileio.csv.exception.*;
 
-import java.nio.file.*;
 import java.util.*;
 
 public abstract class LearningActivity {

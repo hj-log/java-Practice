@@ -1,6 +1,6 @@
-package etc.fileio.domain;
+package etc.fileio.csv.domain;
 
-import etc.fileio.policy.*;
+import etc.fileio.csv.policy.*;
 
 public class PracticeLog extends LearningActivity implements Reviewable, Shareable {
 

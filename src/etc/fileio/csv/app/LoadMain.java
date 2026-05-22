@@ -1,7 +1,7 @@
-package etc.fileio.app;
+package etc.fileio.csv.app;
 
-import etc.fileio.domain.*;
-import etc.fileio.repository.*;
+import etc.fileio.csv.domain.*;
+import etc.fileio.csv.repository.*;
 
 import java.io.*;
 import java.nio.file.*;
