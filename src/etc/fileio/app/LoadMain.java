@@ -1,0 +1,25 @@
+package etc.fileio.app;
+
+import etc.fileio.domain.*;
+import etc.fileio.repository.*;
+
+import java.io.*;
+import java.nio.file.*;
+
+public class LoadMain {
+
+    public static void main(String[] args) throws IOException {
+
+        Path csvPath = Path.of("data/activities.csv");
+        ActivityRepository<LearningActivity> loadedRepo
+                = ActivityRepository.loadFromFile(csvPath);
+
+        System.out.println("CSV 로드 완료: " + loadedRepo.count() +"건");
+
+        loadedRepo.findAll().forEach(a -> System.out.println("- " + a.getActivityType()
+                + " | " + a.getTitle() + "(" + a.getMinutes() + "분) ["
+                + a.getVisibility().getLabel() + "]" + a.getTags()));
+
+    }
+
+}

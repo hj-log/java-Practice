@@ -70,6 +70,7 @@ public class ActivityRepository<T extends LearningActivity> {
 
     // CSV 영속화 -----------------------------------------------------------------------
 
+    // 저장소에 모든 활동 객체를 CSV 파일로 저장한다.
     public void saveToFile(Path csvPath) throws IOException { // 경로 정보를 담아줄 수 있는 타입의 객체로 보내세요 -> Path
         Path parent = csvPath.getParent(); // 경로가 실제로 존재하는지 확인하기 위해 부모경로를 부름
         if (parent != null) {
@@ -89,6 +90,97 @@ public class ActivityRepository<T extends LearningActivity> {
                 writer.newLine();
             }
         }
+
+    }
+
+    // CSV 파일을 읽어 LearningActivity 레포지토리로 복원
+    public static ActivityRepository<LearningActivity> loadFromFile(Path csvPath) throws IOException {
+
+        ActivityRepository<LearningActivity> repository = new ActivityRepository<>();
+
+        try (BufferedReader reader = Files.newBufferedReader(csvPath, StandardCharsets.UTF_8)) {
+            reader.readLine();// 첫 줄을 읽는 메서드 (한 줄을 읽어주는 메서드), 헤더 행 건너뛰기 - 다음 줄을 읽기는 해야 되는데, 변수에 담지는 않겠다.
+
+            String line;
+            // reader.readLine()을 사용하여 한 행을 읽어 들어서 line 할당한 그 결과가 null이 아니라면 true
+            while ((line = reader.readLine()) != null) {
+                if (line.isBlank()) continue;
+                LearningActivity activity = parseCsvRow(line);
+                repository.add(activity);
+            }
+        }
+        return repository;
+    }
+    // LECTURE,Stream 이론,55,PUBLIC,이론;stream,박코치,,
+    private static LearningActivity parseCsvRow(String line) throws IOException {
+        // 두번째 매개값 -1: 끝에 오는 빈 필드도 결과 배열에 포함시킨다.
+        // split은 빈 문자열은 배열에 포함을 안시켜서 두번째 매개값으로 -1 넣음.
+        String[] cols = line.split(",", -1);
+        if (cols.length < 8 ) {
+            throw new IOException("CSV 컬럼 수가 부족합니다. (8개가 필요, 실제 " + cols.length +"개");
+        }
+
+        String type = cols[0];
+        String title = cols[1];
+        int minutes;
+        try {
+            minutes = Integer.parseInt(cols[2]);
+        } catch (NumberFormatException e) {
+            throw new IOException("minutes 컬럼이 정수가 아닙니다: " + cols[2], e);
+        }
+
+        Visibility visibility;
+        try {
+            visibility = Visibility.valueOf(cols[3]);
+        } catch (IllegalArgumentException e) {
+            throw new IOException("알 수 없는 visibility 값: " + cols[3], e);
+        }
+
+        String tagsField = cols[4];
+        String instructorName = cols[5];
+        String completionRateField = cols[6];
+        String bookTitle = cols[7];
+
+        ActivityCategory category;
+        try {
+            category = ActivityCategory.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            throw new IOException("알 수 없는 활동 유형: " + type, e);
+        }
+
+        LearningActivity activity;
+        switch (category) {
+            case LECTURE:
+                activity = new LectureLog(title, minutes, visibility, instructorName);
+                break;
+            case PRACTICE:
+                int completionRate;
+                try {
+                    completionRate = Integer.parseInt(completionRateField);
+                } catch (NumberFormatException e) {
+                    throw new IOException("completionRate가 정수가 아닙니다: "
+                            + completionRateField, e);
+                }
+                activity = new PracticeLog(title, minutes, visibility, completionRate);
+                break;
+            case READING:
+                activity = new ReadingLog(title, minutes, visibility, bookTitle);
+                break;
+            default:
+                throw new IOException("처리할 수 없는 활동 유형: " + type);
+        }
+
+        // 태그 복원
+        if (!tagsField.isBlank()) {
+            for (String tag : tagsField.split(";")) {
+                if (!tag.isBlank()) {
+                    activity.addTag(tag);
+                }
+            }
+        }
+
+        return activity;
+
 
     }
 
@@ -118,6 +210,8 @@ public class ActivityRepository<T extends LearningActivity> {
                 type, title, minutes, visibility, tags,
                 instructorName, completionRate, bookTitle);
     }
+
+
 
 
 }
